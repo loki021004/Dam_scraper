@@ -1,11 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const dam = require('../models/Dam');
+const dam = require('../models/dam');
 const scrapeDamLevels = require('../scraper/scraper');
+const jwt = require('jsonwebtoken');
+
+const getUserIdFromToken = (req) => {
+    const token = req.header("x-auth-token");
+    if (!token) throw new Error("No token provided");
+
+    const verified = jwt.verify(token, process.env.JWTPRIVATEKEY);
+    return verified._id;
+};
+
 
 router.get('/',async (req,res)=>{
     try{
-        const Dam = await dam.find().sort({date:-1});
+        const userId = getUserIdFromToken(req);
+        const Dam = await dam.find({ userId }).sort({ date: -1 });
         res.json(Dam);
     }catch{
         console.log('couldn\'t get dam');
@@ -15,6 +26,8 @@ router.get('/',async (req,res)=>{
 
 router.post('/', async (req, res)=>{
     const damName = req.body.name
+    const userId = getUserIdFromToken(req);
+
     try{
 
         const existingDam = await dam.findOne({ damName: { $regex: new RegExp(`^${damName}$`, 'i') } });
@@ -45,7 +58,8 @@ router.post('/', async (req, res)=>{
             currentStorageVolume:record.currentStorageVolume,
             inflow:cleanNumber(record.inflow),
             outflow:cleanNumber(record.outflow),
-            date:record.date
+            date:record.date,
+            userId: userId
         });
         res.json({ message: `Saved data for dam: ${saved.reservoir}` });
     }catch(err){
@@ -55,8 +69,12 @@ router.post('/', async (req, res)=>{
 })
 
 router.delete('/:id', async(req,res)=>{
-    await dam.findByIdAndDelete(req.params.id);
-    res.json({message:'Deleted'});
+    const userId = getUserIdFromToken(req);
+    const deleted = await dam.findOneAndDelete({ _id: req.params.id, userId });
+    if (!deleted) return res.status(403).json({ message: 'Unauthorized or not found' });
+
+    res.json({ message: 'Deleted' });
+
 })
 
 router.get('/search', async (req, res) => {
@@ -80,6 +98,8 @@ router.get('/search', async (req, res) => {
 
 router.put('/', async(req,res)=>{
     const name = req.body.name
+    const userId = getUserIdFromToken(req);
+
     try{
         const response = await scrapeDamLevels()
         const record = response.find(r=>
@@ -87,7 +107,7 @@ router.put('/', async(req,res)=>{
         );
 
         const updatedDam = await dam.findOneAndUpdate(
-            {damName: name},
+            {damName: name, userId},
             {
                 damName : record.damName,
                 fullDepth: record.fullDepth,
