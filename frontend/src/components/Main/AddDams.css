@@ -1,0 +1,52 @@
+.adddams{
+    width: 85%;
+    position: relative;
+    margin:2rem ;
+    margin-left: 3rem;
+}
+
+.adddams input{
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 2px solid gray;
+    border-radius: 50px;
+    padding: 1rem 2rem;
+    width: 100%;
+    font-size: 20px;
+
+}
+
+.adddams button{
+    border: none;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    height:80%;
+    aspect-ratio: 1;
+    position: absolute;
+    font-size:45px; 
+    right: 0;
+    top:10%;
+    color:blue;
+}
+
+.suggestions-list {
+  margin-top: 5px;
+  padding: 0;
+  list-style: none;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  border-radius: 5px;
+  position: absolute;
+  width: calc(100% - 50px); /* Adjust width to fit input */
+  z-index: 100;
+}
+
+.suggestions-list li {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.suggestions-list li:hover {
+  background-color: #f0f0f0;
+}

@@ -1,0 +1,155 @@
+
+.body{
+    border: 1px solid gray;
+    background-color:  rgb(207, 232, 238);
+    border-radius: 25px;
+    margin: 2rem;
+    padding:2rem;
+}
+
+.body h2{
+    color:rgb(26, 26, 165);
+    text-align:center;
+    height:40px;
+    font-size: 30px;
+}
+
+.body ul{
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap :20px;
+    padding: 10px;
+}
+
+.data{
+    position: relative;
+    border: 1px solid gray;
+    margin-bottom: 2rem;
+    
+    border-radius: 25px;
+    width:  300px;
+    height: 300px;
+    background-color: rgb(207, 232, 238);
+    color:aliceblue;
+    overflow: hidden;
+    z-index: 1;
+}
+
+
+
+.video-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+
+  z-index: -1;
+  transition: transform 0.2s ease;
+}
+
+.video-wrapper video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.video-wrapper.full video {
+  clip-path: none;
+}
+
+.video-wrapper.not-full video {
+    clip-path: polygon(0 8%, 25% 5%, 50% 8%, 75% 5%, 100% 5%, 100% 100%, 0% 100%);
+}
+
+.data p,
+.data h3 {
+  color: darkblue;
+  -webkit-text-stroke: 0.2px whitesmoke;
+  font-weight: bold;
+}
+
+
+
+.data h3{
+    padding-top: 1rem;
+    text-align: center;
+    height:28px;
+    z-index: 2;
+}
+.data .first{
+    padding-top: 1rem;
+}
+
+.data p{
+    padding-bottom: 2px;
+    padding-left: 3rem;
+    z-index: 2;
+    position: relative;
+}
+
+.date{
+    white-space: nowrap;
+    font-size: 16px;
+}
+
+.data button{
+    border: o.25rem solid rgb(0, 0, 0);
+    padding: 4px;
+    margin-left: 40px;
+    color: darkblue;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: aliceblue;
+    border-radius: 25%;
+    margin-top: 10px;
+    cursor: pointer;
+    z-index: 2;
+    position: relative;
+}
+
+.data button:hover{
+    color: aliceblue;
+    background-color: darkblue;
+    border-color: aliceblue;
+}
+
+.flip-card {
+  perspective: 1000px;
+}
+
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.flip-card.flipped .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.flip-front {
+  z-index: 2;
+}
+
+.flip-back {
+  background-size: cover;
+  background-position: center;
+  transform: rotateY(180deg);
+  z-index: 1;
+}
